@@ -41,7 +41,7 @@ def tick():
 ###################################################################################
 
 def contact():
-    mess._show(title='Contact us', message="Please contact us on : 'shubhamkumar8180323@gmail.com' ")
+    mess._show(title='Contact us', message="Please contact us on : 'nithinkata29@gmail.com' ")
 
 ###################################################################################
 
@@ -531,14 +531,11 @@ def delete_registered_images():
         mess.showinfo("Success", "Registered images deleted successfully.")
     else:
         mess.showinfo("Error", "TrainingImage folder not found.")
-
+        
 # Create a button to delete registered images
 delete_images_button = tk.Button(frame1, text="Delete Registered Images", command=delete_registered_images, fg="white", bg="red", width=20, font=('comic', 8, 'bold'))
 delete_images_button.place(x=320, y=115)
-
 ##################### END ######################################
-
 window.configure(menu=menubar)
 window.mainloop()
-
 ####################################################################################################
