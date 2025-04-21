@@ -374,7 +374,7 @@ window.title("Attendance System")
 window.configure(background='#2d420a')
 
 # Load the background image
-bg_image = Image.open("background_image1.png")
+bg_image = Image.open("C:/Users/NITHIN KATA/Desktop/finalmini/Face-Recognition-Based-Attendance-Monitoring-System/background-nnrg.jpg")
 bg_photo = ImageTk.PhotoImage(bg_image)
 
 # Set the background image of the window
@@ -490,7 +490,7 @@ trackImg.place(x=160,y=85)
 quitWindow = tk.Button(frame1, text="Quit", command=window.destroy  ,fg="black"  ,bg="#eb4600"  ,width=35 ,height=1, activebackground = "white" ,font=('comic', 15, ' bold '))
 quitWindow.place(x=30, y=460)
 
-
+   
 def delete_registration_csv():
     registration_csv_path = "StudentDetails\StudentDetails.csv"
     if os.path.exists(registration_csv_path):
@@ -531,11 +531,14 @@ def delete_registered_images():
         mess.showinfo("Success", "Registered images deleted successfully.")
     else:
         mess.showinfo("Error", "TrainingImage folder not found.")
-        
+
 # Create a button to delete registered images
 delete_images_button = tk.Button(frame1, text="Delete Registered Images", command=delete_registered_images, fg="white", bg="red", width=20, font=('comic', 8, 'bold'))
 delete_images_button.place(x=320, y=115)
+
 ##################### END ######################################
+
 window.configure(menu=menubar)
 window.mainloop()
+
 ####################################################################################################
