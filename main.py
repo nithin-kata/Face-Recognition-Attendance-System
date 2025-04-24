@@ -374,7 +374,7 @@ window.title("Attendance System")
 window.configure(background='#2d420a')
 
 # Load the background image
-bg_image = Image.open("C:/Users/NITHIN KATA/Desktop/finalmini/Face-Recognition-Based-Attendance-Monitoring-System/background-nnrg.jpg")
+bg_image = Image.open("C:/Users/NITHIN KATA/Desktop/finalmini/Face-Recognition-Based-Attendance-Monitoring-System/nnrg-ai-background.png")
 bg_photo = ImageTk.PhotoImage(bg_image)
 
 # Set the background image of the window
