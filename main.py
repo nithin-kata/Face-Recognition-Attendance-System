@@ -11,13 +11,7 @@ import numpy as np
 from PIL import Image
 import pandas as pd
 import datetime
-import time
-
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
+import time  
 ############################################# FUNCTIONS ################################################
 
 def assure_path_exists(path):
@@ -216,7 +210,7 @@ def TakeImages():
         if (name.isalpha() == False):
             res = "Enter Correct name"
             message.configure(text=res)
-
+            
 ########################################################################################
 
 def TrainImages():
@@ -426,8 +420,6 @@ message.place(x=7, y=450)
 lbl3 = tk.Label(frame1, text="Attendance",width=20  ,fg="black"  ,bg="#c79cff"  ,height=1 ,font=('comic', 15, ' bold '))
 lbl3.place(x=100, y=125)
 
-
-
 res=0
 exists = os.path.isfile("StudentDetails\StudentDetails.csv")
 if exists:
@@ -474,7 +466,6 @@ scroll_x = ttk.Scrollbar(frame1, orient='horizontal', command=tv.xview)
 scroll_x.grid(row=3, column=0, pady=(0, 20), padx=(0, 100), sticky='ew')
 tv.configure(xscrollcommand=scroll_x.set)
 
-
 ###################### BUTTONS ##################################
 
 clearButton = tk.Button(frame2, text="Clear", command=clear  ,fg="black"  ,bg="#ff7221"  ,width=11 ,activebackground = "white" ,font=('comic', 11, ' bold '))
@@ -489,8 +480,6 @@ trackImg = tk.Button(frame1, text="Take Attendance", command=TrackImages  ,fg="b
 trackImg.place(x=160,y=85)
 quitWindow = tk.Button(frame1, text="Quit", command=window.destroy  ,fg="black"  ,bg="#eb4600"  ,width=35 ,height=1, activebackground = "white" ,font=('comic', 15, ' bold '))
 quitWindow.place(x=30, y=460)
-
-   
 def delete_registration_csv():
     registration_csv_path = "StudentDetails\StudentDetails.csv"
     if os.path.exists(registration_csv_path):
@@ -498,7 +487,6 @@ def delete_registration_csv():
         mess.showinfo("Success", "Registration CSV file deleted successfully.")
     else:
         mess.showinfo("Error", "Registration CSV file not found.")
-
 def delete_attendance_csv():
     today = datetime.datetime.now().strftime('%d-%m-%Y')
     attendance_csv_path = f"Attendance\Attendance_{today}.csv"
