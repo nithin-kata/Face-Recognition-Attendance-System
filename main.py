@@ -13,14 +13,11 @@ import pandas as pd
 import datetime
 import time  
 ############################################# FUNCTIONS ################################################
-
 def assure_path_exists(path):
     dir = os.path.dirname(path)
     if not os.path.exists(dir):
         os.makedirs(dir)
-
 ##################################################################################
-
 def tick():
     # Get the current time
     current_time = time.strftime('%I:%M:%S %p')
@@ -30,15 +27,10 @@ def tick():
     
     # Schedule the next update after 1000 milliseconds (1 second)
     clock.after(1000, tick)
-
-
 ###################################################################################
-
 def contact():
     mess._show(title='Contact us', message="Please contact us on : 'nithinkata29@gmail.com' ")
-
 ###################################################################################
-
 def check_haarcascadefile():
     exists = os.path.isfile("haarcascade_frontalface_default.xml")
     if exists:
@@ -46,9 +38,7 @@ def check_haarcascadefile():
     else:
         mess._show(title='Some file missing', message='Please contact us for help')
         window.destroy()
-
 ###################################################################################
-
 def save_pass():
     assure_path_exists("TrainingImageLabel/")
     exists1 = os.path.isfile("TrainingImageLabel\psd.txt")
@@ -80,9 +70,7 @@ def save_pass():
         return
     mess._show(title='Password Changed', message='Password changed successfully!!')
     master.destroy()
-
 ###################################################################################
-
 def change_pass():
     global master
     master = tk.Tk()
@@ -110,9 +98,7 @@ def change_pass():
     save1 = tk.Button(master, text="Save", command=save_pass, fg="black", bg="#00fcca", height = 1,width=25, activebackground="white", font=('comic', 10, ' bold '))
     save1.place(x=10, y=120)
     master.mainloop()
-
 #####################################################################################
-
 def psw():
     assure_path_exists("TrainingImageLabel/")
     exists1 = os.path.isfile("TrainingImageLabel\psd.txt")
@@ -135,22 +121,17 @@ def psw():
         pass
     else:
         mess._show(title='Wrong Password', message='You have entered wrong password')
-
 ######################################################################################
-
 def clear():
     txt.delete(0, 'end')
     res = "1)Take Images  >>>  2)Save Profile"
     message1.configure(text=res)
 
-
 def clear2():
     txt2.delete(0, 'end')
     res = "1)Take Images  >>>  2)Save Profile"
     message1.configure(text=res)
-
 #######################################################################################
-
 def TakeImages():
     check_haarcascadefile()
     columns = ['SERIAL NO.', '', 'ID', '', 'NAME']
@@ -195,7 +176,7 @@ def TakeImages():
             if cv2.waitKey(100) & 0xFF == ord('q'):
                 break
             # break if the sample number is morethan 100
-            elif sampleNum > 100:
+            elif sampleNum > 70:
                 break
         cam.release()
         cv2.destroyAllWindows()
@@ -210,9 +191,7 @@ def TakeImages():
         if (name.isalpha() == False):
             res = "Enter Correct name"
             message.configure(text=res)
-
 ########################################################################################
-
 def TrainImages():
     check_haarcascadefile()
     assure_path_exists("TrainingImageLabel/")
@@ -229,9 +208,7 @@ def TrainImages():
     res = "Profile Saved Successfully"
     message1.configure(text=res)
     message.configure(text='Total Registrations till now  : ' + str(ID[0]))
-
 ############################################################################################3
-
 def getImagesAndLabels(path):
     # get the path of all the files in the folder
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
@@ -251,9 +228,7 @@ def getImagesAndLabels(path):
         faces.append(imageNp)
         Ids.append(ID)
     return faces, Ids
-
 ###########################################################################################
-
 def TrackImages():
     check_haarcascadefile()
     assure_path_exists("Attendance/")
@@ -335,9 +310,59 @@ def TrackImages():
     csvFile1.close()
     cam.release()
     cv2.destroyAllWindows()
+###################################################################################################
+#function to delete person details completely
+def deletePersonCompletely(person_id):
+    found = False
 
-######################################## USED STUFFS ############################################
-    
+    # 1. Delete training images
+    image_dir = "TrainingImage"
+    for file in os.listdir(image_dir):
+        if file.split('.')[2] == person_id:
+            os.remove(os.path.join(image_dir, file))
+            found = True
+
+    # 2. Remove from label file
+    label_path = "TrainingImageLabel/psd.txt"
+    if os.path.exists(label_path):
+        with open(label_path, "r") as f:
+            lines = f.readlines()
+        with open(label_path, "w") as f:
+            for line in lines:
+                if person_id not in line:
+                    f.write(line)
+                else:
+                    found = True
+
+    # 3. Remove from StudentDetails.csv
+    student_path = "StudentDetails/StudentDetails.csv"
+    if os.path.exists(student_path):
+        with open(student_path, "r") as f:
+            rows = list(csv.reader(f))
+        with open(student_path, "w", newline='') as f:
+            writer = csv.writer(f)
+            for row in rows:
+                if row and row[0] != person_id:
+                    writer.writerow(row)
+                else:
+                    found = True
+
+    # 4. Update registration count file (if exists)
+    reg_path = "StudentDetails/registration.csv"
+    if os.path.exists(reg_path):
+        with open(reg_path, "r") as f:
+            count = int(f.read().strip())
+        count = max(0, count - 1)
+        with open(reg_path, "w") as f:
+            f.write(str(count))
+
+    # 5. Retrain
+    if found:
+        TrainImages()
+        message.configure(text=f"Deleted person ID {person_id} from all records.")
+    else:
+        message.configure(text=f"No records found for ID {person_id}.")
+######################################## USED STUFFS ############################################ 
 global key
 key = ''
 
@@ -358,9 +383,7 @@ mont={'01':'January',
       '11':'November',
       '12':'December'
       }
-
 ######################################## GUI FRONT-END ###########################################
-
 window = tk.Tk()
 window.geometry("1280x720")
 window.resizable(True,False)
@@ -421,7 +444,6 @@ lbl3 = tk.Label(frame1, text="Attendance",width=20  ,fg="black"  ,bg="#c79cff"  
 lbl3.place(x=100, y=125)
 
 
-
 res=0
 exists = os.path.isfile("StudentDetails\StudentDetails.csv")
 if exists:
@@ -434,18 +456,14 @@ if exists:
 else:
     res = 0
 message.configure(text='Total Registrations till now  : '+str(res))
-
 ##################### MENUBAR #################################
-
 menubar = tk.Menu(window,relief='ridge')
 filemenu = tk.Menu(menubar,tearoff=0)
 filemenu.add_command(label='Change Password', command = change_pass)
 filemenu.add_command(label='Contact Us', command = contact)
 filemenu.add_command(label='Exit',command = window.destroy)
 menubar.add_cascade(label='Help',font=('comic', 29, ' bold '),menu=filemenu)
-
 ################## TREEVIEW ATTENDANCE TABLE ####################
-
 tv= ttk.Treeview(frame1,height =13,columns = ('name','date','time'))
 tv.column('#0',width=82)
 tv.column('name',width=130)
@@ -456,9 +474,7 @@ tv.heading('#0',text ='ID')
 tv.heading('name',text ='NAME')
 tv.heading('date',text ='DATE')
 tv.heading('time',text ='TIME')
-
 ###################### SCROLLBAR ################################
-
 scroll=ttk.Scrollbar(frame1,orient='vertical',command=tv.yview)
 scroll.grid(row=2,column=4,padx=(0,100),pady=(150,0),sticky='ns')
 tv.configure(yscrollcommand=scroll.set)
@@ -467,8 +483,6 @@ tv.configure(yscrollcommand=scroll.set)
 scroll_x = ttk.Scrollbar(frame1, orient='horizontal', command=tv.xview)
 scroll_x.grid(row=3, column=0, pady=(0, 20), padx=(0, 100), sticky='ew')
 tv.configure(xscrollcommand=scroll_x.set)
-
-
 ###################### BUTTONS ##################################
 
 clearButton = tk.Button(frame2, text="Clear", command=clear  ,fg="black"  ,bg="#ff7221"  ,width=11 ,activebackground = "white" ,font=('comic', 11, ' bold '))
@@ -484,7 +498,6 @@ trackImg.place(x=160,y=85)
 quitWindow = tk.Button(frame1, text="Quit", command=window.destroy  ,fg="black"  ,bg="#eb4600"  ,width=35 ,height=1, activebackground = "white" ,font=('comic', 15, ' bold '))
 quitWindow.place(x=30, y=460)
 
-   
 def delete_registration_csv():
     registration_csv_path = "StudentDetails\StudentDetails.csv"
     if os.path.exists(registration_csv_path):
@@ -530,6 +543,12 @@ def delete_registered_images():
 delete_images_button = tk.Button(frame1, text="Delete Registered Images", command=delete_registered_images, fg="white", bg="red", width=20, font=('comic', 8, 'bold'))
 delete_images_button.place(x=320, y=115)
 
+# create a button to delete complete deatails of a particular person 
+deleteId = tk.StringVar()
+tk.Label(window, text="Enter ID to Delete").place(x=600, y=100)
+tk.Entry(window, textvariable=deleteId, width=20).place(x=600, y=130)
+tk.Button(window, text="Delete Person", command=lambda: deletePersonCompletely(deleteId.get()),fg="white", bg="red" , width=15, height=2).place(x=600, y=160)
+ 
 ##################### END ######################################
 
 window.configure(menu=menubar)
