@@ -208,7 +208,7 @@ def TrainImages():
     res = "Profile Saved Successfully"
     message1.configure(text=res)
     message.configure(text='Total Registrations till now  : ' + str(ID[0]))
-############################################################################################3
+############################################################################################
 def getImagesAndLabels(path):
     # get the path of all the files in the folder
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
@@ -310,7 +310,7 @@ def TrackImages():
     csvFile1.close()
     cam.release()
     cv2.destroyAllWindows()
-###################################################################################################
+##############################################################################################
 #function to delete person details completely
 def deletePersonCompletely(person_id):
     found = False
