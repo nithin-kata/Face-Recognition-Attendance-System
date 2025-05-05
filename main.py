@@ -8,7 +8,7 @@ import tkinter.simpledialog as tsd
 import cv2,os
 import csv
 import numpy as np
-from PIL import Image
+from PIL import Image 
 import pandas as pd
 import datetime
 import time  
@@ -21,10 +21,8 @@ def assure_path_exists(path):
 def tick():
     # Get the current time
     current_time = time.strftime('%I:%M:%S %p')
-    
     # Update the clock label with the current time
-    clock.config(text=current_time)
-    
+    clock.config(text=current_time)     
     # Schedule the next update after 1000 milliseconds (1 second)
     clock.after(1000, tick)
 ###################################################################################
@@ -208,7 +206,7 @@ def TrainImages():
     res = "Profile Saved Successfully"
     message1.configure(text=res)
     message.configure(text='Total Registrations till now  : ' + str(ID[0]))
-############################################################################################
+############################################################################################3
 def getImagesAndLabels(path):
     # get the path of all the files in the folder
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
@@ -277,7 +275,6 @@ def TrackImages():
                 bb = str(aa)
                 bb = bb[2:-2]
                 attendance = [str(ID), '', bb, '', str(date), '', str(timeStamp)]
-
             else:
                 Id = 'Unknown'
                 bb = str(Id)
@@ -310,7 +307,7 @@ def TrackImages():
     csvFile1.close()
     cam.release()
     cv2.destroyAllWindows()
-##############################################################################################
+###################################################################################################
 #function to delete person details completely
 def deletePersonCompletely(person_id):
     found = False
@@ -321,18 +318,6 @@ def deletePersonCompletely(person_id):
         if file.split('.')[2] == person_id:
             os.remove(os.path.join(image_dir, file))
             found = True
-
-    # 2. Remove from label file
-    label_path = "TrainingImageLabel/psd.txt"
-    if os.path.exists(label_path):
-        with open(label_path, "r") as f:
-            lines = f.readlines()
-        with open(label_path, "w") as f:
-            for line in lines:
-                if person_id not in line:
-                    f.write(line)
-                else:
-                    found = True
 
     # 3. Remove from StudentDetails.csv
     student_path = "StudentDetails/StudentDetails.csv"
