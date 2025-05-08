@@ -538,5 +538,3 @@ tk.Button(window, text="Delete Person", command=lambda: deletePersonCompletely(d
 
 window.configure(menu=menubar)
 window.mainloop()
-
-####################################################################################################
