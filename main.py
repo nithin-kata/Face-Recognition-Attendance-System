@@ -533,8 +533,33 @@ deleteId = tk.StringVar()
 tk.Label(window, text="Enter ID to Delete").place(x=600, y=100)
 tk.Entry(window, textvariable=deleteId, width=20).place(x=600, y=130)
 tk.Button(window, text="Delete Person", command=lambda: deletePersonCompletely(deleteId.get()),fg="white", bg="red" , width=15, height=2).place(x=600, y=160)
+
+
+def open_student_details():
+    path = "StudentDetails"
+    if os.path.exists(path):
+        os.startfile(path)  # Opens with default app
+    else:
+        mess.showinfo("Error", "StudentDetails.csv not found.")
+
+def open_training_images():
+    folder = "TrainingImage"
+    if os.path.exists(folder):
+        os.startfile(folder)  # Opens the folder
+    else:
+        mess.showinfo("Error", "TrainingImage folder not found.")
+
+# Add the buttons at the bottom-right of frame2
+student_details_btn = tk.Button(frame2, text="Open Student Details", command=open_student_details, bg="#ffb300", fg="black", font=('comic', 10, 'bold'), width=20)
+student_details_btn.place(x=70, y=500)
+
+training_images_btn = tk.Button(frame2, text="Open Training Images", command=open_training_images, bg="#ffb300", fg="black", font=('comic', 10, 'bold'), width=20)
+training_images_btn.place(x=270, y=500)
+
  
 ##################### END ######################################
 
 window.configure(menu=menubar)
 window.mainloop()
+
+####################################################################################################
