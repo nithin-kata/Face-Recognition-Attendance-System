@@ -29,7 +29,7 @@ FaceRecognitionAttendance/ │ ├── dataset/ # Captured face images ├─�
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/FaceRecognitionAttendance.git
+   git clone https://github.com/nithin-kata/FaceRecognitionAttendance.git
    cd FaceRecognitionAttendance
    
 2.Install dependencies:
