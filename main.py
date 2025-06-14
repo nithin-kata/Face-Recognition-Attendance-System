@@ -327,7 +327,7 @@ def deletePersonCompletely(person_id):
         with open(student_path, "w", newline='') as f:
             writer = csv.writer(f)
             for row in rows:
-                if row and row[0] != person_id:
+                if row and row[2] != person_id:
                     writer.writerow(row)
                 else:
                     found = True
