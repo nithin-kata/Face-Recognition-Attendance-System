@@ -14,16 +14,26 @@ A Python-based attendance system that uses face recognition to automate student 
 
 ## 🧰 Tech Stack
 
-- **Python 3**
-- **OpenCV** – For image capture and face detection/recognition
-- **Tkinter** – For the GUI
-- **Pandas** – For CSV and data handling
-- **NumPy** – For numerical processing
-- **OS / shutil** – For file system operations
+Python 3.10
+OpenCV – For image capture and face recognition
+Tkinter – GUI frontend
+Pandas – CSV and data handling
+NumPy – Numerical operations
+Pillow (PIL) – Image management
+OS / shutil – File system tasks
 
 ## 📁 Project Structure
 
-FaceRecognitionAttendance/ │ ├── dataset/ # Captured face images ├── trainer/ # Trained model file (trainer.yml) ├── attendance/ # Attendance CSV records ├── studentdetails.csv # Student registration info ├── trainingImageLabel/ # Used during training ├── main.py # Main application script ├── README.md # Project documentation └── requirements.txt # Python dependencies
+FaceRecognitionAttendance/
+├── Attendance/              # Stores daily attendance CSV files
+├── StudentDetails/          # Stores student registration data
+├── TrainingImage/           # Captured face images
+├── TrainingImageLabel/      # Trained model and password file
+├── haarcascade_frontalface_default.xml  # Haar Cascade for face detection
+├── main.py                  # Main application script
+├── README.md                # Project documentation
+└── requirements.txt         # Python dependencies
+
 
 ## ✅ How to Run
 
@@ -32,35 +42,46 @@ FaceRecognitionAttendance/ │ ├── dataset/ # Captured face images ├─�
    git clone https://github.com/nithin-kata/FaceRecognitionAttendance.git
    cd FaceRecognitionAttendance
    
-2.Install dependencies:
-pip install -r requirements.txt
+**2.Install dependencies:**
 
-3.Run the application:
+Install All the modules mentioned below 
+pip install tk-tools
+pip install opencv-contrib-python
+pip install datetime
+pip install pytest-shutil
+pip install python-csv
+pip install numpy
+pip install pillow 
+pip install pandas
+pip install times
+
+**3.Run the application**:
 
 bash
 Copy
 Edit
 python main.py
 
-📷 Image Capture Info
-By default, 101 images are captured per student for better training accuracy.
+**📷 Image Capture Info**
 
-You can adjust this number in the code if needed.
+By default, 71 images are captured per student for better model accuracy.
+You can modify this count inside TakeImages() in main.py.
+A minimum of 30–50 varied images is recommended for best results.
 
-A minimum of 30–50 varied images is recommended.
-
-🧹 Delete Functionality
+**🧹 Delete Functionality**
 You can delete a student's data completely (images, records, and CSV entry) with one click using the GUI.
 
-🔐 Face Recognition Model
+**🔐 Face Recognition Model**
 Uses OpenCV's LBPH (Local Binary Patterns Histograms) algorithm.
+Model is trained using images in TrainingImage/ and saved as TrainingImageLabel/Trainner.yml.
 
-Model is trained on images in the dataset/ folder and saved as trainer.yml.
-
-🙌 Contributions
+**🙌 Contributions**
 Contributions, suggestions, and issues are welcome. Please fork the repo and create a pull request.
 
-📄 License
+**📧 Contact**
+For any queries, email: nithinkata29@gmail.com
+
+**📄 License**
 MIT License – free to use and modify.
 
 
