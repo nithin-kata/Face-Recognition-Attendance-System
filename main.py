@@ -135,60 +135,63 @@ def TakeImages():
     columns = ['SERIAL NO.', '', 'ID', '', 'NAME']
     assure_path_exists("StudentDetails/")
     assure_path_exists("TrainingImage/")
+    
     serial = 0
-    exists = os.path.isfile("StudentDetails\StudentDetails.csv")
-    if exists:
-        with open("StudentDetails\StudentDetails.csv", 'r') as csvFile1:
+    csv_path = "StudentDetails/StudentDetails.csv"
+    
+    if os.path.exists(csv_path):
+        with open(csv_path, 'r') as csvFile1:
             reader1 = csv.reader(csvFile1)
             for l in reader1:
-                serial = serial + 1
+                serial += 1
         serial = (serial // 2)
-        csvFile1.close()
     else:
-        with open("StudentDetails\StudentDetails.csv", 'a+') as csvFile1:
+        with open(csv_path, 'a+', newline='') as csvFile1:
             writer = csv.writer(csvFile1)
             writer.writerow(columns)
-            serial = 1
-        csvFile1.close()
-    Id = (txt.get())
-    name = (txt2.get())
-    if ((name.isalpha()) or (' ' in name)):
+        serial = 1
+
+    Id = txt.get()
+    name = txt2.get()
+
+    if name.replace(" ", "").isalpha():  # allows space in names
         cam = cv2.VideoCapture(0)
         harcascadePath = "haarcascade_frontalface_default.xml"
         detector = cv2.CascadeClassifier(harcascadePath)
         sampleNum = 0
-        while (True):
+
+        while True:
             ret, img = cam.read()
+            if not ret:
+                break
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             faces = detector.detectMultiScale(gray, 1.3, 5)
+
             for (x, y, w, h) in faces:
+                sampleNum += 1
+                face_img = gray[y:y + h, x:x + w]
+                file_path = f"TrainingImage/{name}.{serial}.{Id}.{sampleNum}.jpg"
+                cv2.imwrite(file_path, face_img)
                 cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
-                # incrementing sample number
-                sampleNum = sampleNum + 1
-                # saving the captured face in the dataset folder TrainingImage
-                cv2.imwrite("TrainingImage\ " + name + "." + str(serial) + "." + Id + '.' + str(sampleNum) + ".jpg",
-                            gray[y:y + h, x:x + w])
-                # display the frame
                 cv2.imshow('Taking Images', img)
-            # wait for 100 miliseconds
-            if cv2.waitKey(100) & 0xFF == ord('q'):
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-            # break if the sample number is morethan 100
-            elif sampleNum > 70:
+            elif sampleNum >= 71:
                 break
+
         cam.release()
         cv2.destroyAllWindows()
-        res = "Images Taken for ID : " + Id
+
         row = [serial, '', Id, '', name]
-        with open('StudentDetails\StudentDetails.csv', 'a+') as csvFile:
+        with open(csv_path, 'a+', newline='') as csvFile:
             writer = csv.writer(csvFile)
             writer.writerow(row)
-        csvFile.close()
+
+        res = f"Images Taken for ID : {Id}"
         message1.configure(text=res)
     else:
-        if (name.isalpha() == False):
-            res = "Enter Correct name"
-            message.configure(text=res)
+        message.configure(text="Enter Correct name")
 ########################################################################################
 def TrainImages():
     check_haarcascadefile()
