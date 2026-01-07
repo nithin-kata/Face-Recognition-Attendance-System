@@ -2,6 +2,8 @@
 
 A Python-based attendance system that uses face recognition to automate student attendance marking. The system allows registration, face image capture, training, real-time attendance, and data management using a user-friendly Tkinter GUI.
 
+<img width="1919" height="952" alt="Screenshot 2025-05-23 165433" src="https://github.com/user-attachments/assets/dda6a386-6db6-49b1-9236-9b771f8601ce" />
+
 ## 🚀 Features
 
 - Register new students with ID, name, and department
